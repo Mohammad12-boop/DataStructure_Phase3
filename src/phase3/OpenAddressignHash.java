@@ -1,57 +1,57 @@
-package phase3;
+package hashing;
 
 public abstract class OpenAddressignHash<T extends Comparable<T>> {
-
+	
 	protected HNode<T>[] table;
 	protected int m, size, collisions;
-
+	
 	protected OpenAddressignHash(int dataSize) {
-
+		
 		m = dataSize;
-
+		
 		table = new HNode[m];
 		for (int i = 0; i < m; i++)
 			table[i] = new HNode<>(null);
 	}
-
+	
 	public int getCollisions() {
-
+		
 		return collisions;
 	}
 
 	public abstract void add(T data);
-
+	
 	public abstract HNode<T> find(T data);
-
+	
 	public HNode<T> delete(T data) {
-
+		
 		HNode<T> deleted = find(data);
 		if (deleted != null) deleted.setFlag("D");
 		--size;
 		return deleted;
 	}
-
+	
 	private boolean isPrime(int n) {
-
+		
 		for (int i = 2; i * i <= n; i++)
-			if (n % i == 0)
+			if (n % i == 0) 
 				return false;
 		return true;
 	}
-
+	
 	public void traverse() {
-
-		for (int i = 0; i < m; i++)
+		
+		for (int i = 0; i < m; i++) 
 			if (table[i].getData() != null)
 				System.out.print(i + " " + table[i] + " - \n");
 	}
-
-
+	
+	
 	protected void rehash() {
-
+		
 		int tempM = m;
 		HNode<T>[] tempTable = table;
-
+		
 		m *= 2;
 		for(; !isPrime(m); m++ );
 		table = new HNode[m];
@@ -59,10 +59,10 @@ public abstract class OpenAddressignHash<T extends Comparable<T>> {
 			table[i] = new HNode<>(null);
 		size = 0;
 
-		for (int i = 0; i < tempM; i++)
+		for (int i = 0; i < tempM; i++) 
 			if (tempTable[i].getFlag().equalsIgnoreCase("F"))
 				add(tempTable[i].getData());
-
+		
 
 	}
 
@@ -93,7 +93,7 @@ public abstract class OpenAddressignHash<T extends Comparable<T>> {
 	public void setSize(int size) {
 		this.size = size;
 	}
-
-
+	
+	
 
 }
